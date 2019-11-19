@@ -13,4 +13,4 @@ Setting up instruction
     
 Other Information
 1. the base_url is "localhost:8080/cpsc410_backend/rest/"
-2. a testable api is "localhost:8080/cpsc410_backend/rest/hello/"
+2. a testable api is "localhost:8080/cpsc410_backend/rest/hello/{String}"
