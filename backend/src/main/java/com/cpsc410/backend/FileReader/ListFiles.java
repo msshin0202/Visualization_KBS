@@ -32,8 +32,8 @@ public class ListFiles {
                 classSet.add(className);
 
                 // Initialize the HashMap for the current class and add it to the root HashMap
-                HashMap<String, Integer> classHashMap = new HashMap<>();
-                rootHashMap.put(className, classHashMap);
+                HashMap<String, Integer> classHashMap;
+                rootHashMap.put(className, classHashMap = new HashMap<>());
 
                 // TODO: DELETE - For testing purpose
                 Set<String> keyStrings = rootHashMap.keySet();
