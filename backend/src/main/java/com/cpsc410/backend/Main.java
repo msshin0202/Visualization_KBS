@@ -17,6 +17,7 @@ public class Main {
 
         ListFiles listFiles = new ListFiles();
         listFiles.listAllFiles(folder);
+        listFiles.readAllFiles(folder);
 
         for (String className: listFiles.getClassSet()) {
             System.out.print("Class: ");
