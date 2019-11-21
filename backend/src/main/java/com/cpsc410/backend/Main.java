@@ -9,8 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         // TODO: Locate the path to cloned repository correctly
-        // String basePath = "backend/src/main/java/com/cpsc410/backend/";
-        String basePath = "CPSC410";
+        String basePath = "backend/src/main/java/com/cpsc410/backend/CPSC410";
         String path = new File(basePath)
                 .getAbsolutePath();
         System.out.println("path: " + path);
