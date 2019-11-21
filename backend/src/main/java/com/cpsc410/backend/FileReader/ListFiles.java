@@ -4,8 +4,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ListFiles {
+    private Set<String> classSet;
+    private HashMap<String, HashMap> rootHashMap;
+
+    public ListFiles() {
+        classSet = new HashSet<>();
+        rootHashMap = new HashMap<>();
+    }
+
+    /*
     public static void main(String[] args) {
 
         String basePath = "backend/src/main/java/com/cpsc410/backend/";
@@ -14,22 +26,20 @@ public class ListFiles {
         System.out.println("path: " + path);
         File folder = new File(path);
 
-
-        // File folder = new File("G:\\Test");
         ListFiles listFiles = new ListFiles();
         System.out.println("reading files before Java8 - Using listFiles() method");
         listFiles.listAllFiles(folder);
 
-        // THIS IS USING Java8 Files.walk() method
-        /*
-        System.out.println("-------------------------------------------------");
-        System.out.println("reading files Java8 - Using Files.walk() method");
-        listFiles.listAllFiles(path);
-         */
-
+        for (String className: listFiles.classSet) {
+            System.out.print("Class: ");
+            System.out.println(className);
+        }
     }
+     */
+
+
     // Uses listFiles method
-    public static void listAllFiles(File folder){
+    public void listAllFiles(File folder){
         System.out.println("In listAllfiles(File) method");
         File[] fileNames = folder.listFiles();
         for(File file : fileNames){
@@ -38,6 +48,13 @@ public class ListFiles {
                 listAllFiles(file);
             }else{
                 try {
+                    if (file.getName().contains(".java")) {
+                        // className.java
+                        String classNameJava = file.getName();
+                        // className
+                        String className = file.getName().substring(0, classNameJava.length()-5);
+                        classSet.add(className);
+                    }
                     readContent(file);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -48,29 +65,7 @@ public class ListFiles {
         }
     }
 
-    /*
-    // Uses Files.walk method
-    public static void listAllFiles(String path){
-        System.out.println("In listAllfiles(String path) method");
-        try(Stream<Path> paths = Files.walk(Paths.get(path))) {
-            paths.forEach(filePath -> {
-                if (Files.isRegularFile(filePath)) {
-                    try {
-                        readContent(filePath);
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-     */
-
-    public static void readContent(File file) throws IOException{
+    public void readContent(File file) throws IOException{
         System.out.println("read file " + file.getCanonicalPath() );
         try(BufferedReader br  = new BufferedReader(new FileReader(file))){
             String strLine;
@@ -80,16 +75,22 @@ public class ListFiles {
             while((strLine = br.readLine()) != null){
                 System.out.println(lineNumber + " : " + strLine);
                 lineNumber++;
+
+                if (strLine.contains("new")) {
+                    // TODO: Deal with situation when new class has been instantiated
+                    System.out.println("@@@@@@@@@@@@@@@@@@@@@");
+                    System.out.println("NEW STATEMENT");
+                    System.out.println("@@@@@@@@@@@@@@@@@@@@@");
+                }
             }
         }
     }
 
-    /*
-    public static void readContent(Path filePath) throws IOException{
-        System.out.println("read file " + filePath);
-        List<String> fileList = Files.readAllLines(filePath);
-        System.out.println("" + fileList);
+    public Set<String> getClassSet() {
+        return classSet;
     }
-     */
 
+    public HashMap<String, HashMap> getRootHashMap() {
+        return rootHashMap;
+    }
 }
