@@ -53,21 +53,29 @@ public class ListFiles {
                 classSet.add(className);
 
                 // Initialize the HashMap for the current class and add it to the root HashMap
-                HashMap<String, Integer> classHashMap = new HashMap<>();
-                rootHashMap.put(className, classHashMap);
+                // HashMap<String, Integer> classHashMap = new HashMap<>();
+                rootHashMap.put(className, new HashMap<String, Integer>());
+
+                // TODO: TESTING
+                Set<String> keyStrings = rootHashMap.keySet();
+                for (String key: keyStrings) {
+                    System.out.print("class HashMaps in rootHashMap: ");
+                    System.out.println(key);
+                }
+
             }
         }
     }
 
     // Uses listFiles method
     public void readAllFiles(File folder){
-        System.out.println("In listAllfiles(File) method");
+        System.out.println("In readAllfiles(File) method");
         File[] fileNames = folder.listFiles();
         for(File file : fileNames){
             // if directory, call the same method again
             // if file, only read the file with .java extension
             if(file.isDirectory()){
-                listAllFiles(file);
+                readAllFiles(file);
             }else if (file.getName().contains(".java")){
                 try {
                     readContent(file);
@@ -99,20 +107,25 @@ public class ListFiles {
                     int indexOfNew = getIndexOfWord(wordsInLine, "new");
                     String referencedClass = wordsInLine[indexOfNew + 1];
 
-                    // Remove the brackets at the end of class object instantiation
-                    // e.g. new Player();
-                    int indexOfBracket = getIndexOfChar(referencedClass, '(');
-                    System.out.println("Index of Bracket: " + indexOfBracket);
-                    // referencedClass = referencedClass.substring(0, indexOfBracket - 1);
-
+                    if (containsChar(referencedClass, '(') && containsChar(referencedClass, ')')) {
+                        // Remove the brackets at the end of class object instantiation
+                        // e.g. new Player();
+                        int indexOfBracket = getIndexOfChar(referencedClass, '(');
+                        referencedClass = referencedClass.substring(0, indexOfBracket);
+                    }
                     // Go into HashMap of the class referenced and add current class as key
                     if (classSet.contains(referencedClass)) {
                         // TODO: Go into HashMap of the class referenced and add current class as key
                         String className = getFileName(file);
+                        System.out.println("className in Line: " + className);
 
                         // TODO: Got to handle multiple instances of same class instantiation
-                        getClassHashMap(referencedClass).put(className, 1);
+                        HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
+                        classHashMap.put(className, 1);
+                        System.out.println(className + " has been inserted into " + referencedClass + "'s HashMap");
+                        // getClassHashMap(referencedClass).put(className, 1);
                     }
+
 
                     // TODO: DELETE
                     for (String word: wordsInLine) {
@@ -136,6 +149,16 @@ public class ListFiles {
                 index = i;
         }
         return index;
+    }
+
+    private boolean containsChar(String word, char keyChar) {
+        char[] chars = word.toCharArray();
+        int index = -3;
+        for (char aChar : chars) {
+            if (keyChar == aChar)
+                return true;
+        }
+        return false;
     }
 
     private String getFileName(File file) {
