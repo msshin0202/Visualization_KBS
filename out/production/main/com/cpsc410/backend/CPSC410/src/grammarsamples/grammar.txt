@@ -1,21 +1,18 @@
-# BOARD, SNAKE, and FRUIT can be written in any order
-# You don't need to put quotation mark (") anywhere
-# || means "or"
-
-PROGRAM := "start" BOARD SNAKE FRUIT "end"
+PROGRAM := "start" BOARD | SNAKE | FRUIT "end"
 
 BOARD := "board" WIDTH HEIGHT
-WIDTH := "width" NUMBER             # width is in pixel and must be in: [100, 1000]
-HEIGHT := "height" NUMBER           # height is in pixel and must be in: [100, 1000]
+WIDTH := "width" NUMBER
+HEIGHT := "height" NUMBER
 
 SNAKE := "snake" HEADCOLOR BODYCOLOR SIZE SPEED
 HEADCOLOR := "headcolor" COLOR
 BODYCOLOR := "bodycolor" COLOR
-SIZE := "size" NUMBER               # size is in pixel
-SPEED := "speed" NUMBER             # speed must be in: [1, 100]
+SIZE := "size" NUMBER
+SPEED := "speed" NUMBER
 
 FRUIT := "fruit" APPLECOLOR
 APPLECOLOR := "applecolor" COLOR
 
-COLOR := ["green" || "orange" || "red" || "yellow"] # <-- choose one from permitted colors
-NUMBER := Positive Integer
+COLOR := "set" ["green" | "orange" | "red" | "yellow"]
+NUMBER := [0-9]+
+
