@@ -49,15 +49,17 @@ public class ListFiles {
             }else{
                 try {
                     if (file.getName().contains(".java")) {
-                        // className.java
-                        String classNameJava = file.getName();
-                        // className
-                        String className = file.getName().substring(0, classNameJava.length()-5);
+                        // Add className to HashSet
+                        String classNameJava = file.getName(); // className.java
+                        String className = file.getName().substring(0, classNameJava.length()-5); // className
                         classSet.add(className);
+
+                        // TODO: Initialize the HashMap for the current class and add it to the root HashMap
+                        HashMap<String, Integer> classHashMap = new HashMap<>();
+                        rootHashMap.put(className, classHashMap);
                     }
                     readContent(file);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 

@@ -3,6 +3,7 @@ package com.cpsc410.backend;
 import com.cpsc410.backend.FileReader.ListFiles;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,7 +21,13 @@ public class Main {
         for (String className: listFiles.getClassSet()) {
             System.out.print("Class: ");
             System.out.println(className);
+
+            HashMap<String, Integer> innerHashMap = listFiles.getRootHashMap().get(className);
+            // TODO: PRINT innerHashMap
+            System.out.println(className + "'s HashMap Size: " + innerHashMap.size());
         }
+
+
 
     }
 }
