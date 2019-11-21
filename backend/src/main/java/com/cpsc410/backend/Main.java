@@ -9,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
 
         // TODO: Locate the path to cloned repository correctly
-        String basePath = "backend/src/main/java/com/cpsc410/backend/";
+        // String basePath = "backend/src/main/java/com/cpsc410/backend/";
+        String basePath = "CPSC410";
         String path = new File(basePath)
                 .getAbsolutePath();
         System.out.println("path: " + path);
@@ -36,8 +37,9 @@ public class Main {
             System.out.println("classHashMap has been successfully initialized");
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             Collection<HashMap<String, Integer>> listOfHashMaps = listFiles.getRootHashMap().values();
-            for (HashMap<String, Integer> hashMap: listOfHashMaps) {
-                for (String classNames: hashMap.keySet()) {
+            for (HashMap<String, Integer> classHashMap: listOfHashMaps) {
+                System.out.println(classHashMap.keySet());
+                for (String classNames: classHashMap.keySet()) {
                     System.out.print("Class referenced: ");
                     System.out.println(classNames);
                 }

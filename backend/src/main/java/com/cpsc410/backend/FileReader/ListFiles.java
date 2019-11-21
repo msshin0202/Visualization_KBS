@@ -14,8 +14,8 @@ public class ListFiles {
     private HashMap<String, HashMap<String, Integer>> rootHashMap;
 
     public ListFiles() {
-        classSet = new HashSet<>();
-        rootHashMap = new HashMap<>();
+        classSet = new HashSet<String>();
+        rootHashMap = new HashMap<String, HashMap<String, Integer>>();
     }
 
     // Uses listFiles method
@@ -32,8 +32,8 @@ public class ListFiles {
                 classSet.add(className);
 
                 // Initialize the HashMap for the current class and add it to the root HashMap
-                HashMap<String, Integer> classHashMap;
-                rootHashMap.put(className, classHashMap = new HashMap<>());
+                HashMap<String, Integer> classHashMap = new HashMap<String, Integer>();
+                rootHashMap.put(className, classHashMap);
 
                 // TODO: DELETE - For testing purpose
                 Set<String> keyStrings = rootHashMap.keySet();
@@ -41,6 +41,7 @@ public class ListFiles {
                     System.out.print("class HashMaps in rootHashMap: ");
                     System.out.println(key);
                 }
+                System.out.println("-----------------------------------");
 
             }
         }
