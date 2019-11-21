@@ -18,7 +18,7 @@ public class Main {
         ListFiles listFiles = new ListFiles();
         listFiles.listAllFiles(folder);
 
-        // TODO: For testing purpose
+        // TODO: DELETE - For testing purpose
         Set<String> classSet = listFiles.getClassSet();
         if (!classSet.isEmpty()) {
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -30,6 +30,7 @@ public class Main {
             }
         }
 
+        // TODO: DELETE - For testing purpose
         if (!listFiles.getRootHashMap().isEmpty()) {
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             System.out.println("classHashMap has been successfully initialized");
