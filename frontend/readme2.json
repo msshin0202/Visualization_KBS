@@ -1,37 +1,114 @@
 [
   {
-    "className": "BOARD",
-    "dependency": [
-      "className2", "className3", "className5"
-    ]
+    "dependency":[
+      {
+        "weight":1,
+        "className":"PROGRAM"
+      }
+    ],
+    "className":"BOARD"
   },
   {
-    "className" : "className2",
-    "dependency" : [
-      "className3"
-    ]
+    "dependency":[
+      {
+        "weight":1,
+        "className":"Main"
+      }
+    ],
+    "className":"Snake"
   },
   {
-    "className" : "className3",
-    "dependency" : [
-      "BOARD"
-    ]
-  },  {
-  "className": "BOARD2",
-  "dependency": [
-    "className2", "className4"
-  ]
-},
-  {
-    "className" : "className4",
-    "dependency" : [
-      "className3", "className2"
-    ]
+    "dependency":[
+
+    ],
+    "className":"Node"
   },
   {
-    "className" : "className5",
-    "dependency" : [
-      "BOARD"
-    ]
+    "dependency":[
+      {
+        "weight":1,
+        "className":"Tokenizer"
+      }
+    ],
+    "className":"TokenizerException"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"COLOR"
+      }
+    ],
+    "className":"NameCheckException"
+  },
+  {
+    "dependency":[
+
+    ],
+    "className":"BoundaryCheckException"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"Snake"
+      }
+    ],
+    "className":"Board"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"PROGRAM"
+      }
+    ],
+    "className":"FRUIT"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"PROGRAM"
+      }
+    ],
+    "className":"SNAKE"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"FRUIT"
+      },
+      {
+        "weight":10,
+        "className":"SNAKE"
+      }
+    ],
+    "className":"COLOR"
+  },
+  {
+    "dependency":[
+
+    ],
+    "className":"Main"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"Tokenizer"
+      }
+    ],
+    "className":"Tokenizer"
+  },
+  {
+    "dependency":[
+      {
+        "weight":1,
+        "className":"Main"
+      }
+    ],
+    "className":"PROGRAM"
   }
 ]
