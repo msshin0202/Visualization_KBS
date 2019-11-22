@@ -13,5 +13,5 @@ Setting up instruction
     2. in case you do not have Tomcat in "edit configuration" follow this instruction: "https://www.mkyong.com/intellij/intellij-idea-run-debug-web-application-on-tomcat/"
     
 Other Information
-1. the base_url is "localhost:8080/cpsc410_backend/rest/"
-2. a testable api is "localhost:8080/cpsc410_backend/rest/hello/{String}"
+1. the base_url is "localhost:8080/backend/rest/"
+2. a testable api is "localhost:8080/backend/rest/hello/{String}"
