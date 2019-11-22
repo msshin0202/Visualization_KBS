@@ -12,23 +12,35 @@ import org.json.simple.JSONObject;
 public class JSONCreator {
 
     public static void makeJSON(HashMap<String, HashMap<String, Integer>> rootHashMap){
-        JSONObject rootJSON = new JSONObject();
-        Iterator hashMapIterator = rootHashMap.entrySet().iterator();
-        while(hashMapIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry) hashMapIterator.next();
-            String key = ((String) mapElement.getKey());
-            HashMap<String, Integer> valueMap = ((HashMap<String, Integer>) mapElement.getValue());
-            rootJSON.put(key, valueMap);
+        JSONArray rootJsonArray = new JSONArray();
+
+        for (Map.Entry mapElement : rootHashMap.entrySet()) {
+            HashMap<String, Integer> dependencyMap = (HashMap<String, Integer>) mapElement.getValue();
+            JSONArray dependencyJsonArray = getDependencyJsonArray(dependencyMap);
+
+            JSONObject classInfo = new JSONObject();
+            classInfo.put("className", mapElement.getKey());
+            classInfo.put("dependency", dependencyJsonArray);
+
+            rootJsonArray.add(classInfo);
         }
-//        rootHashMap.put("testkey", "testval");
 
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.add(rootHashMap);
-        writeJSON(rootJSON);
-
+        writeJSON(rootJsonArray);
     }
 
-    private static void writeJSON(JSONObject rootJSON) {
+    private static JSONArray getDependencyJsonArray(HashMap<String, Integer> map) {
+        JSONArray dependencies = new JSONArray();
+        for (Map.Entry mapElement : map.entrySet()) {
+            JSONObject dependency = new JSONObject();
+            dependency.put("className", mapElement.getKey());
+            dependency.put("weight", mapElement.getValue());
+            dependencies.add(dependency);
+        }
+
+        return dependencies;
+    }
+
+    private static void writeJSON(JSONArray rootJSON) {
         try (FileWriter file = new FileWriter("rootHashMap.json")) {
 
             file.write(rootJSON.toJSONString());

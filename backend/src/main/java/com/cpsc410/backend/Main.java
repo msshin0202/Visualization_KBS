@@ -4,13 +4,16 @@ import com.cpsc410.backend.FileReader.JSONCreator;
 import com.cpsc410.backend.FileReader.ListFiles;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
         // TODO: Locate the path to cloned repository correctly
-        String basePath = "backend/src/main/java/com/cpsc410/backend/CPSC410";
+
+//        String basePath = "backend/src/main/java/com/cpsc410/backend/CPSC410";
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString() + "/src/main/java/com/cpsc410/backend/CPSC410";
         String path = new File(basePath)
                 .getAbsolutePath();
         System.out.println("path: " + path);
