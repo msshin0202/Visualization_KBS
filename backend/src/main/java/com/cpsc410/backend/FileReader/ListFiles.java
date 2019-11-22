@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ListFiles {
     private Set<String> classSet;
@@ -65,6 +62,17 @@ public class ListFiles {
             }
         }
     }
+
+    /*
+    private void removeEmptyHash() {
+        for (String currClass :classSet) {
+            HashMap<String, Integer> innerHashMap = rootHashMap.get(currClass);
+            if (innerHashMap.isEmpty()) {
+                rootHashMap.remove(currClass);
+            }
+        }
+    }
+    */
 
     public void readContent(File file) throws IOException{
         System.out.println("read file " + file.getCanonicalPath() );
