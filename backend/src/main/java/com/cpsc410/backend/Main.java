@@ -1,5 +1,6 @@
 package com.cpsc410.backend;
 
+import com.cpsc410.backend.FileReader.JSONCreator;
 import com.cpsc410.backend.FileReader.ListFiles;
 
 import java.io.File;
@@ -45,18 +46,18 @@ public class Main {
             }
         }
 
-
         listFiles.readAllFiles(folder);
 
         for (String className: listFiles.getClassSet()) {
-            System.out.print("Class: ");
-            System.out.println(className);
-
+            System.out.print("Current Class: " + className + "\n");
             HashMap<String, Integer> innerHashMap = listFiles.getRootHashMap().get(className);
-            // TODO: PRINT innerHashMap
-            System.out.println(className + "'s HashMap Size: " + innerHashMap.size());
+            if (!innerHashMap.isEmpty()) {
+                System.out.println(innerHashMap);
+            }
         }
 
+        JSONCreator jsonCreator = new JSONCreator();
+        jsonCreator.makeJSON(listFiles.getRootHashMap());
 
 
     }

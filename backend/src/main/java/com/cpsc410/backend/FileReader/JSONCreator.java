@@ -24,13 +24,14 @@ public class JSONCreator {
 
         JSONArray jsonArray = new JSONArray();
         jsonArray.add(rootHashMap);
-        writeJSON(jsonArray);
+        writeJSON(rootJSON);
 
     }
 
-    private static void writeJSON(JSONArray jsonArray) {
+    private static void writeJSON(JSONObject rootJSON) {
         try (FileWriter file = new FileWriter("rootHashMap.json")) {
-            file.write(jsonArray.toJSONString());
+
+            file.write(rootJSON.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
