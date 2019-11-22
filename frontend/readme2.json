@@ -1,0 +1,37 @@
+[
+  {
+    "className": "BOARD",
+    "dependency": [
+      "className2", "className3", "className5"
+    ]
+  },
+  {
+    "className" : "className2",
+    "dependency" : [
+      "className3"
+    ]
+  },
+  {
+    "className" : "className3",
+    "dependency" : [
+      "BOARD"
+    ]
+  },  {
+  "className": "BOARD2",
+  "dependency": [
+    "className2", "className4"
+  ]
+},
+  {
+    "className" : "className4",
+    "dependency" : [
+      "className3", "className2"
+    ]
+  },
+  {
+    "className" : "className5",
+    "dependency" : [
+      "BOARD"
+    ]
+  }
+]
