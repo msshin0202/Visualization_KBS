@@ -20,6 +20,6 @@ We have only one rest api in this application.
 1. POST -  /getDependency
     - data has to be in this format:
        {
-            "url": <github URL>
+            "url": "github URL"
        }
     - For testing, sends POST request to "localhost:8080/backend/rest/getDependency". Add "Content-Type: application/json", and "Accept: application/json" in the header. 
