@@ -1,5 +1,7 @@
 package com.cpsc410.backend.FileReader;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,13 +13,12 @@ public class ListFiles {
     private HashMap<String, HashMap<String, Integer>> rootHashMap;
 
     public ListFiles() {
-        classSet = new HashSet<String>();
-        rootHashMap = new HashMap<String, HashMap<String, Integer>>();
+        classSet = new HashSet<>();
+        rootHashMap = new HashMap<>();
     }
 
     // Uses listFiles method
     public void listAllFiles(File folder){
-        System.out.println("In listAllfiles(File) method");
         File[] fileNames = folder.listFiles();
         for(File file : fileNames){
             // if directory, call the same method again
@@ -31,22 +32,12 @@ public class ListFiles {
                 // Initialize the HashMap for the current class and add it to the root HashMap
                 HashMap<String, Integer> classHashMap = new HashMap<String, Integer>();
                 rootHashMap.put(className, classHashMap);
-
-                // TODO: DELETE - For testing purpose
-                Set<String> keyStrings = rootHashMap.keySet();
-                for (String key: keyStrings) {
-                    System.out.print("class HashMaps in rootHashMap: ");
-                    System.out.println(key);
-                }
-                System.out.println("-----------------------------------");
-
             }
         }
     }
 
     // Uses listFiles method
     public void readAllFiles(File folder){
-        System.out.println("In readAllfiles(File) method");
         File[] fileNames = folder.listFiles();
         for(File file : fileNames){
             // if directory, call the same method again
@@ -84,23 +75,11 @@ public class ListFiles {
                 System.out.println(lineNumber + " : " + strLine);
                 lineNumber++;
 
-                // TODO: Deal with situation when new class has been instantiated
                 if (strLine.contains("new")) {
-
-                    // TODO: DELETE - For testing purpose
-                    System.out.println("@@@@@@@@@@@@@@@@@@@@@");
-                    System.out.println("NEW STATEMENT");
-                    System.out.println("@@@@@@@@@@@@@@@@@@@@@");
 
                     // TODO: Must consider the case of {, }, (, ), <, >, space
                     // e.g. try (BufferedReader br  = new BufferedReader(new FileReader(file))){
                     String[] wordsInLine = strLine.split(" ");
-
-                    // TODO: DELETE - For testing purpose
-                    for (String word: wordsInLine) {
-                        System.out.print("word in Line: ");
-                        System.out.println(word);
-                    }
 
                     // Find a class name that is referenced (Found by "new" keyword)
                     int indexOfNew = getIndexOfWord(wordsInLine, "new");
@@ -113,32 +92,56 @@ public class ListFiles {
                         referencedClass = referencedClass.substring(0, indexOfBracket);
                     }
 
-                    // TODO: DELETE - For testing purpose
-                    System.out.println("Referenced ClassName: " + referencedClass);
-
                     // If the referenced class is User defined class,
                     // Go into HashMap of the referenced class, add current class as key
                     if (classSet.contains(referencedClass)) {
-                        // TODO: Go into HashMap of the class referenced and add current class as key
                         String className = getFileName(file);
 
-                        // TODO: DELETE - For testing purpose
-                        System.out.println("Current ClassName: " + className);
-
-                        // TODO: Got to handle multiple instances of same class instantiation
                         HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
-                        classHashMap.put(className, 1);
-
-                        // TODO: DELETE - For testing purpose
-                        System.out.println(className + " has been inserted into " + referencedClass + "'s HashMap");
-                        // getClassHashMap(referencedClass).put(className, 1);
+                        if (classHashMap.containsKey(className)) {
+                            int timesReferenced = classHashMap.get(className);
+                            timesReferenced += 1;
+                            classHashMap.put(className, timesReferenced);
+                        } else {
+                            classHashMap.put(className, 1);
+                        }
                     }
-                    // TODO: DELETE - For testing purpose
-                    else {
-                        System.out.println("-----Referenced Class NOT user defined class-----");
-                    }
-
                 }
+
+                if (strLine.contains("extends") || strLine.contains("implements")) {
+
+                    String[] wordsInLine = strLine.split(" ");
+
+                    int index = 0;
+
+                    if (strLine.contains("extends")) {
+                        index = getIndexOfWord(wordsInLine, "extends");
+                    } else if (strLine.contains("implements")){
+                        index = getIndexOfWord(wordsInLine, "implements");
+                    }
+
+                    index++;
+
+                    while (index < wordsInLine.length) {
+                        String referencedClass = wordsInLine[index];
+
+                        if (classSet.contains(referencedClass)) {
+                            String className = getFileName(file);
+
+                            HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
+                            if (classHashMap.containsKey(className)) {
+                                int timesReferenced = classHashMap.get(className);
+                                timesReferenced += 1;
+                                classHashMap.put(className, timesReferenced);
+                            } else {
+                                classHashMap.put(className, 1);
+                            }
+                        }
+                        index++;
+                    }
+                }
+
+
             }
         }
     }
