@@ -79,7 +79,7 @@ public class ListFiles {
 
                     // TODO: Must consider the case of {, }, (, ), <, >, space
                     // e.g. try (BufferedReader br  = new BufferedReader(new FileReader(file))){
-                    String[] wordsInLine = strLine.split(" ");
+                    String[] wordsInLine = strLine.split("\\s+");
 
                     // Find a class name that is referenced (Found by "new" keyword)
                     int indexOfNew = getIndexOfWord(wordsInLine, "new");
@@ -110,7 +110,7 @@ public class ListFiles {
 
                 if (strLine.contains("extends") || strLine.contains("implements")) {
 
-                    String[] wordsInLine = strLine.split(" ");
+                    String[] wordsInLine = strLine.split("\\s+");
 
                     int index = 0;
 
