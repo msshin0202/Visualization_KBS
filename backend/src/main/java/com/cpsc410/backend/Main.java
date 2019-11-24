@@ -35,6 +35,7 @@ public class Main {
                 System.out.println(innerHashMap);
             }
         }
+        System.out.println(listFiles.getClassSet());
 
         JSONCreator jsonCreator = new JSONCreator();
         jsonCreator.makeJSON(listFiles.getRootHashMap());

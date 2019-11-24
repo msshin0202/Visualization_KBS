@@ -1,6 +1,7 @@
 package com.cpsc410.backend.FileReader;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+//import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,17 +55,6 @@ public class ListFiles {
         }
     }
 
-    /*
-    private void removeEmptyHash() {
-        for (String currClass :classSet) {
-            HashMap<String, Integer> innerHashMap = rootHashMap.get(currClass);
-            if (innerHashMap.isEmpty()) {
-                rootHashMap.remove(currClass);
-            }
-        }
-    }
-    */
-
     public void readContent(File file) throws IOException{
         System.out.println("read file " + file.getCanonicalPath() );
         try(BufferedReader br  = new BufferedReader(new FileReader(file))) {
@@ -72,102 +62,61 @@ public class ListFiles {
             // Read lines from the file, returns null when end of stream is reached
             int lineNumber = 0;
             while((strLine = br.readLine()) != null){
-                System.out.println(lineNumber + " : " + strLine);
+                String[] wordsInLine = strLine.split("\\s+");
                 lineNumber++;
+                extractDependencies(file, strLine, wordsInLine);
+            }
+        }
+    }
 
-                if (strLine.contains("new")) {
+    private void extractDependencies(File file, String strLine, String[] wordsInLine) {
+        if (strLine.contains("extends") || strLine.contains("implements")) {
+            int index = 0;
 
-                    // TODO: Must consider the case of {, }, (, ), <, >, space
-                    // e.g. try (BufferedReader br  = new BufferedReader(new FileReader(file))){
-                    String[] wordsInLine = strLine.split("\\s+");
+            if (strLine.contains("extends")) {
+                index = getIndexOfWord(wordsInLine, "extends");
+            } else if (strLine.contains("implements")){
+                index = getIndexOfWord(wordsInLine, "implements");
+            }
 
-                    // Find a class name that is referenced (Found by "new" keyword)
-                    int indexOfNew = getIndexOfWord(wordsInLine, "new");
-                    String referencedClass = wordsInLine[indexOfNew + 1];
+            index++;
 
-                    // Remove the brackets at the end of class object instantiation
-                    // e.g. new Player();
-                    if (containsChar(referencedClass, '(') && containsChar(referencedClass, ')')) {
-                        int indexOfBracket = getIndexOfChar(referencedClass, '(');
-                        referencedClass = referencedClass.substring(0, indexOfBracket);
-                    }
+            while (index < wordsInLine.length) {
+                String referencedClass = wordsInLine[index];
 
-                    // If the referenced class is User defined class,
-                    // Go into HashMap of the referenced class, add current class as key
-                    if (classSet.contains(referencedClass)) {
-                        String className = getFileName(file);
-
-                        HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
-                        if (classHashMap.containsKey(className)) {
-                            int timesReferenced = classHashMap.get(className);
-                            timesReferenced += 1;
-                            classHashMap.put(className, timesReferenced);
-                        } else {
-                            classHashMap.put(className, 1);
-                        }
-                    }
+                addToHashMap(file, referencedClass);
+                index++;
+            }
+        }
+        // TODO: cover case of when static objects are used from another class
+        for (String eachWord : wordsInLine) {
+            if (!eachWord.isEmpty() && !eachWord.contains(" ")) {
+                char currChar = eachWord.charAt(0);
+                System.out.println("word: " + eachWord);
+                if (Character.isUpperCase(currChar)) {
+                    addToHashMap(file, eachWord);
                 }
+            }
+        }
+    }
 
-                if (strLine.contains("extends") || strLine.contains("implements")) {
+    private void addToHashMap(File file, String referencedClass) {
+        if (classSet.contains(referencedClass)) {
+            String className = getFileName(file);
 
-                    String[] wordsInLine = strLine.split("\\s+");
-
-                    int index = 0;
-
-                    if (strLine.contains("extends")) {
-                        index = getIndexOfWord(wordsInLine, "extends");
-                    } else if (strLine.contains("implements")){
-                        index = getIndexOfWord(wordsInLine, "implements");
-                    }
-
-                    index++;
-
-                    while (index < wordsInLine.length) {
-                        String referencedClass = wordsInLine[index];
-
-                        if (classSet.contains(referencedClass)) {
-                            String className = getFileName(file);
-
-                            HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
-                            if (classHashMap.containsKey(className)) {
-                                int timesReferenced = classHashMap.get(className);
-                                timesReferenced += 1;
-                                classHashMap.put(className, timesReferenced);
-                            } else {
-                                classHashMap.put(className, 1);
-                            }
-                        }
-                        index++;
-                    }
-                }
-
-
+            HashMap<String, Integer> classHashMap = getClassHashMap(referencedClass);
+            if (classHashMap.containsKey(className)) {
+                int timesReferenced = classHashMap.get(className);
+                timesReferenced += 1;
+                classHashMap.put(className, timesReferenced);
+            } else {
+                classHashMap.put(className, 1);
             }
         }
     }
 
     private int getIndexOfWord(String[] stringArray, String keyWord) {
         return Arrays.asList(stringArray).indexOf(keyWord);
-    }
-
-    private int getIndexOfChar(String word, char keyChar) {
-        char[] chars = word.toCharArray();
-        int index = -3;
-        for (int i = 0; i < chars.length; i++) {
-            if (keyChar == chars[i])
-                index = i;
-        }
-        return index;
-    }
-
-    private boolean containsChar(String word, char keyChar) {
-        char[] chars = word.toCharArray();
-        int index = -3;
-        for (char aChar : chars) {
-            if (keyChar == aChar)
-                return true;
-        }
-        return false;
     }
 
     private String getFileName(File file) {
