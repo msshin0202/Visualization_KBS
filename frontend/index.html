@@ -25,8 +25,8 @@
 <script src="./d3.js"></script>
 <script>
 
-    var width = 1000,
-        height = 1000,
+    var width = 2000,
+        height = 2000,
         root;
 
     var force = d3.layout.force()
@@ -84,7 +84,6 @@
             links = flatten(root);
         // Restart the force layout.
 
-        getSize(root);
         force
             .nodes(nodes)
             .links(links)
@@ -195,37 +194,19 @@
         }
     }
 
-    function getSize(data){
-        var nodeMap = {};
-
-        for(let i = 0; i < data.length; i++){
-            nodeMap[data[i]["className"]] = data[i];
-        }
-
-        for(let i = 0; i < data.length; i++){
-            if (data[i].dependency) {
-                for (let j = 0; j < data[i].dependency.length; j++) {
-                    let dependency = data[i].dependency[j];
-                    nodeMap[dependency["className"]]["size"]++;
-                }
-            }
-        }
-    }
 
     function flatten(data) {
         var nodeMap = {};
         var links = [];
-
         for (let i = 0; i < data.length; i++) {
             nodeMap[data[i]["className"]] = i;
-            //initial size of node.
-            data[i]["size"] = 4;
+            data[i]["size"] = 4 + data[i].dependency.length;
         }
 
         for (let i = 0; i < data.length; i++) {
             if (data[i].dependency) {
                 for (let j = 0; j < data[i].dependency.length; j++) {
-                    let link = {source: i, target: nodeMap[data[i].dependency[j]["className"]], weight: data[i].dependency[j]["weight"]};
+                    let link = {source:  nodeMap[data[i].dependency[j]["className"]], target: i, weight: data[i].dependency[j]["weight"]};
                     links.push(link);
                 }
             }
