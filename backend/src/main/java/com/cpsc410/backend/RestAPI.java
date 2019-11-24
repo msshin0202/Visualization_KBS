@@ -23,7 +23,7 @@ public class RestAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response extractDependencyFromGitRepo(GitURL gitURL) {
-        String basePath = Paths.get(".").toAbsolutePath().normalize().toString() + "/src/main/java/com/cpsc410/backend/CPSC430";
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString() + "/src/main/java/com/cpsc410/backend/CPSC440";
         String path = new File(basePath)
                 .getAbsolutePath();
         System.out.println("path: " + path);
