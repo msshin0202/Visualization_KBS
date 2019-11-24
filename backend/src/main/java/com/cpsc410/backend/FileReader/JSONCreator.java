@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 
 public class JSONCreator {
 
-    public static void makeJSON(HashMap<String, HashMap<String, Integer>> rootHashMap){
+    public static JSONArray makeJSON(HashMap<String, HashMap<String, Integer>> rootHashMap){
         JSONArray rootJsonArray = new JSONArray();
 
         for (Map.Entry mapElement : rootHashMap.entrySet()) {
@@ -26,6 +26,7 @@ public class JSONCreator {
         }
 
         writeJSON(rootJsonArray);
+        return rootJsonArray;
     }
 
     private static JSONArray getDependencyJsonArray(HashMap<String, Integer> map) {

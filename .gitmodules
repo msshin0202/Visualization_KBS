@@ -1,0 +1,3 @@
+[submodule "backend/CPSC410"]
+	path = backend/CPSC410
+	url = /Users/goke/IdeaProjects/Visualization_KBS/backend/src/main/java/com/cpsc410/backend/CPSC410

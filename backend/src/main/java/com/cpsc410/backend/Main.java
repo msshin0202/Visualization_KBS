@@ -10,9 +10,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        // TODO: Locate the path to cloned repository correctly
-
-//        String basePath = "backend/src/main/java/com/cpsc410/backend/CPSC410";
         String basePath = Paths.get(".").toAbsolutePath().normalize().toString() + "/src/main/java/com/cpsc410/backend/CPSC410";
         String path = new File(basePath)
                 .getAbsolutePath();
@@ -22,32 +19,12 @@ public class Main {
         ListFiles listFiles = new ListFiles();
         listFiles.listAllFiles(folder);
 
-        // TODO: DELETE - For testing purpose
-        Set<String> classSet = listFiles.getClassSet();
-        if (!classSet.isEmpty()) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            System.out.println("classSet has been successfully initialized");
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            for (String className: classSet) {
-                System.out.print("Class in classSet: ");
-                System.out.println(className);
-            }
+        Set<String> keyStrings = listFiles.getRootHashMap().keySet();
+        for (String key: keyStrings) {
+            System.out.print("class HashMaps in rootHashMap: ");
+            System.out.println(key);
         }
-
-        // TODO: DELETE - For testing purpose
-        if (!listFiles.getRootHashMap().isEmpty()) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            System.out.println("classHashMap has been successfully initialized");
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            Collection<HashMap<String, Integer>> listOfHashMaps = listFiles.getRootHashMap().values();
-            for (HashMap<String, Integer> classHashMap: listOfHashMaps) {
-                System.out.println(classHashMap.keySet());
-                for (String classNames: classHashMap.keySet()) {
-                    System.out.print("Class referenced: ");
-                    System.out.println(classNames);
-                }
-            }
-        }
+        System.out.println("-----------------------------------");
 
         listFiles.readAllFiles(folder);
 
