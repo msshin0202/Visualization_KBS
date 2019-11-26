@@ -88,12 +88,14 @@ public class ListFiles {
                 index++;
             }
         }
-        // TODO: cover case of when static objects are used from another class
+
+        String className = getFileName(file);
+
         for (String eachWord : wordsInLine) {
             if (!eachWord.isEmpty() && !eachWord.contains(" ")) {
                 char currChar = eachWord.charAt(0);
                 System.out.println("word: " + eachWord);
-                if (Character.isUpperCase(currChar)) {
+                if (Character.isUpperCase(currChar) && !className.equals(eachWord)) {
                     addToHashMap(file, eachWord);
                 }
             }
